@@ -1,0 +1,11 @@
+- POST / SIGNUP
+- POST / LOGIN
+- POST / LOGOUT
+
+- GET / PROFILE/VIEW
+- PATCH /PROFILE/EDIT
+
+# get all pending requests
+
+- GET / REQUESTS / PENDING
+- GET /USER /CONNECTIONS /
