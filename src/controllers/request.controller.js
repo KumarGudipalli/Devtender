@@ -73,7 +73,7 @@ const getAllPendingRequests = async (req, res) => {
     const pendingRequests = await ConnectionRequest.find({
       reciverId: loggedinUser._id,
       status: "intrested",
-    }).populate("senderId", "firstName lastName profileUrl  skills");
+    }).populate("senderId", "firstName lastName profileUrl about skills");
     if (!pendingRequests)
       return res
         .status(200)
@@ -91,8 +91,8 @@ const getAllConnections = async (req, res) => {
       status: "accept",
       $or: [{ reciverId: loggedinUser._id }, { senderId: loggedinUser._id }],
     })
-      .populate("senderId", "firstName lastName profileUrl  skills")
-      .populate("reciverId", "firstName lastName profileUrl  skills");
+      .populate("senderId", "firstName lastName profileUrl  about  skills")
+      .populate("reciverId", "firstName lastName profileUrl about  skills");
     if (!userAllConnections)
       return res
         .status(200)

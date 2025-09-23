@@ -14,7 +14,7 @@ const Signup = async (req, res) => {
       age,
       skills,
       profileUrl,
-      about
+      about,
     } = req.body;
     let existingUser = await User.findOne({ email });
 
@@ -31,7 +31,7 @@ const Signup = async (req, res) => {
       age,
       skills,
       profileUrl,
-      about
+      about,
     });
 
     await user.save();
@@ -55,12 +55,17 @@ const Login = async (req, res) => {
     }
 
     const jwtToken = await user.getJwt();
-    if (jwtToken) res.cookie("token", jwtToken);
+    if (jwtToken)
+      res.cookie("token", jwtToken, {
+        httpOnly: true,
+        secure: true, // only true if using https
+        sameSite: "none",
+      });
     res
       .status(201)
       .json({ message: "user loggedin Successfully ", data: user });
   } catch (error) {
-    res.status(500).json({ message: "somthing went wrong" });
+    res.status(400).json({ message: "somthing went wrong" });
   }
 };
 
