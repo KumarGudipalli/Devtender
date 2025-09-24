@@ -4,7 +4,9 @@ const jwt = require("jsonwebtoken");
 const authMiddleWare = async (req, res, next) => {
   try {
     const cookie = req.cookies;
+        console.log(cookie);
     const { token } = cookie;
+     console.log(token);
     if (!token) {
       return res.status(401).json({ message: "not authorized" });
     }
