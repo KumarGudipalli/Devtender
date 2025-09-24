@@ -28,7 +28,7 @@ const port = process.env.PORT || 5000;  // Fix: case-sensitive
 
 connectToDb()
   .then(() => {
-    console.log("DB is connected", process.env.MONGODB);
+    console.log("DB is connected on backend - " +  process.env.MONGODB);
     app.listen(port, () => {
       console.log("Server is running on port", port);
     });
