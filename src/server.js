@@ -19,8 +19,8 @@ app.use(
   })
 );
 
-app.use("/api/auth", SignupRouter);
-app.use("/api/profile", ProfileRouter);
+app.use("/auth", SignupRouter);
+app.use("/profile", ProfileRouter);
 app.use("/request", requestRouter);
 app.use("/connections", feedRouter);
 
