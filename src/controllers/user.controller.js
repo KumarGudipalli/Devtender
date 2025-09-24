@@ -58,8 +58,8 @@ const Login = async (req, res) => {
     if (jwtToken)
       res.cookie("token", jwtToken, {
         httpOnly: true,
-        secure: true, // only true if using https
-        sameSite: "none",
+        secure: false, // only true if using https
+        sameSite: "lax",
       });
     res
       .status(201)
