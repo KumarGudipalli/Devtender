@@ -65,7 +65,7 @@ const Login = async (req, res) => {
       .status(201)
       .json({ message: "user loggedin Successfully ", data: user });
   } catch (error) {
-    res.status(400).json({ message: "somthing went wrong" });
+    res.status(400).json({ message: "somthing went wrong"  , details : error.message});
   }
 };
 

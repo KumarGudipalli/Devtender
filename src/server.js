@@ -6,6 +6,7 @@ const ProfileRouter = require("./routers/profile.router");
 const requestRouter = require("./routers/request.router");
 const feedRouter = require("./routers/feed.router");
 const chatRouter = require("./routers/chat.rotuer");
+const uploadRouter = require("./routers/upload.router");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const http = require("http");
@@ -29,6 +30,7 @@ app.use("/profile", ProfileRouter);
 app.use("/request", requestRouter);
 app.use("/connections", feedRouter);
 app.use("/chat", chatRouter);
+app.use("/files", uploadRouter);
 
 const port = process.env.PORT || 5000; // Fix: case-sensitive
 SocketConnection(server);

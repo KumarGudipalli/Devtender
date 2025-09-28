@@ -27,34 +27,39 @@ const SocketConnection = (server) => {
       console.log(`✅ ${firstName} joined room:`, roomId);
       socket.join(roomId);
     });
-    socket.on("sendMessage", async ({ firstName,lastName, targetId, userId, text }) => {
-      try {
-        let chat = await Chat.findOne({
-          participants: { $all: [targetId, userId] },
-        });
+    socket.on(
+      "sendMessage",
+      async ({ firstName, lastName, targetId, userId, text, img }) => {
+        console.log(img, "imgBackend");
+        try {
+          let chat = await Chat.findOne({
+            participants: { $all: [targetId, userId] },
+          });
 
-        if (!chat) {
-          chat = new Chat({ participants: [userId, targetId], messages: [] });
+          if (!chat) {
+            chat = new Chat({ participants: [userId, targetId], messages: [] });
+            await chat.save();
+          }
+
+          // create message in Message collection
+          const newMessage = await Message.create({
+            chatId: chat._id,
+            senderId: userId,
+            content: text,
+            imageUrl: img,
+          });
+          console.log(newMessage, img, "newMessages");
+          // add message ref to chat
+          chat.messages.push(newMessage._id);
           await chat.save();
+
+          const roomId = cryptoHashing(userId, targetId);
+          io.to(roomId).emit("messageReceived", { firstName, text, lastName });
+        } catch (error) {
+          console.error("❌ Error sending message:", error.message);
         }
-
-        // create message in Message collection
-        const newMessage = await Message.create({
-          chatId: chat._id,
-          senderId: userId,
-          content: text,
-        });
-
-        // add message ref to chat
-        chat.messages.push(newMessage._id);
-        await chat.save();
-
-        const roomId = cryptoHashing(userId, targetId);
-        io.to(roomId).emit("messageReceived", { firstName, text, lastName });
-      } catch (error) {
-        console.error("❌ Error sending message:", error.message);
       }
-    });
+    );
 
     socket.on("disconnect", () => {});
   });

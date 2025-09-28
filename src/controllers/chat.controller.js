@@ -56,6 +56,7 @@ const sendMessage = async (req, res) => {
       chatId,
       senderId,
       content,
+      imageUrl
     });
 
     // Push message into Chat
